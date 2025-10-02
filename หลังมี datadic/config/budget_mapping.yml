@@ -1,0 +1,67 @@
+# 1) เขียน budget_mapping.yml ใหม่แบบสะอาด
+
+cfg_path = Path(r"C:\Users\netthip\OneDrive\เรียน ป.โท\IS\หลังมี datadic\config\budget_mapping.yml")
+cfg_text = r"""
+expenditure_groups:
+  บุคลากร:
+    keywords: ["เงินเดือน","ค่าจ้างประจำ","ค่าตอบแทน","เงินประจำตำแหน่ง","พ.ส.ร.","ส.ป.พ.","เงินเดือนฯ","ค่าจ้าง"]
+    type: "ประจำ"
+    plan_group: "แผนบุคลากรภาครัฐ"
+  ดำเนินงาน:
+    keywords: ["ค่าใช้สอย","ค่าวัสดุ","ค่าสาธารณูปโภค","ค่าบริการ","เช่าใช้","บำรุงรักษา","ฝึกอบรม","สัมมนา"]
+    type: "ประจำ"
+    plan_group: "แผนงานพื้นฐาน"
+  ลงทุน:
+    keywords: ["ครุภัณฑ์","ค.ภัณฑ์","ที่ดิน","สิ่งก่อสร้าง","ก่อสร้าง","ปรับปรุงอาคาร","Software","ระบบสารสนเทศ","ไอที"]
+    type: "ลงทุน"
+    plan_group: "แผนงานยุทธศาสตร์"
+  อุดหนุน:
+    keywords: ["เงินอุดหนุน","เงินสนับสนุน","อุดหนุนทั่วไป","ถ่ายโอน","สมทบ"]
+    type: "ประจำ"
+    plan_group: "แผนงานยุทธศาสตร์"
+
+rules:
+  - name: cap_capital
+    when: {field: cap_ncap, equals_any: ["1","ลงทุน"]}
+    set: {expenditure_type: "ลงทุน"}
+  - name: cap_recurrent
+    when: {field: cap_ncap, equals_any: ["2","ประจำ"]}
+    set: {expenditure_type: "ประจำ"}
+  - name: trust_objc8_capital
+    when: {field: objc_8, equals_any: ["ลงทุน"]}
+    set: {budget_group: "ลงทุน", plan_group: "แผนงานยุทธศาสตร์", expenditure_type: "ลงทุน"}
+  - name: kw_personnel
+    when_any:
+      - {field: item_name, contains_any: ["เงินเดือน","ค่าจ้างประจำ","ค่าตอบแทน","เงินประจำตำแหน่ง","พ.ส.ร.","ส.ป.พ."]}
+      - {field: objc, contains_any: ["บุคลากร"]}
+    set: {budget_group: "บุคลากร", plan_group: "แผนบุคลากรภาครัฐ", expenditure_type: "ประจำ"}
+  - name: kw_operation
+    when_any:
+      - {field: item_name, contains_any: ["ค่าใช้สอย","ค่าวัสดุ","ค่าสาธารณูปโภค","ค่าบริการ"]}
+      - {field: objc, contains_any: ["ดำเนินงาน"]}
+    set: {budget_group: "ดำเนินงาน", plan_group: "แผนงานพื้นฐาน", expenditure_type: "ประจำ"}
+  - name: kw_capital
+    when_any:
+      - {field: item_name, contains_any: ["ครุภัณฑ์","ที่ดิน","สิ่งก่อสร้าง","ก่อสร้าง","Software","ระบบสารสนเทศ"]}
+      - {field: objc, contains_any: ["ลงทุน"]}
+    set: {budget_group: "ลงทุน", plan_group: "แผนงานยุทธศาสตร์", expenditure_type: "ลงทุน"}
+
+fallback: {budget_group: "ไม่ทราบหมวด", plan_group: "ไม่ทราบแผน", expenditure_type: "ประจำ"}
+
+output_columns:
+  - min
+  - min_name
+  - agc
+  - agc_name
+  - group_budget
+  - plan_name
+  - output_name
+  - act_name
+  - budget_group
+  - expenditure_type
+  - plan_group
+  - objc
+  - objc_8
+  - cap_ncap
+  - item_name
+  - p_total_bud

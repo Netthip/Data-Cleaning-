@@ -1,0 +1,18 @@
+{
+  "แผนงาน": "program",
+  "ผลผลิต/โครงการ": "project",
+  "รหัสกิจกรรม": "activity_code",
+  "กิจกรรม": "activity_name",
+  "งบรายจ่าย": "budget_category",
+  "ลักษณะค่าใช้จ่าย": "expense_nature",
+  "หมวดค่าใช้จ่าย": "expense_group",
+  "ปีเดียว/ผูกพัน": "single_or_multi_year",
+  "ประจำ/ลงทุน": "opex_or_capex",
+  "รหัสรายการ": "item_code",
+  "รายการ": "item_name",
+  "รายการย่อย": "item_sub",
+  "ปี2567(ปรับฐาน)": "FY67_adjusted",
+  "ปี2568": "FY68",
+  "ปี2569": "FY69",
+  "ปี2570": "FY70"
+}

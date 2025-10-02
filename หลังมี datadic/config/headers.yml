@@ -1,0 +1,83 @@
+standard_headers:
+  min:
+  - ^รหัสกระทรวง$
+  - min
+  - กระทรวงรหัส
+  min_name:
+  - ^ชื่อกระทรวง$
+  - min_name
+  - กระทรวง
+  agc:
+  - ^รหัสกรม$
+  - agc
+  - หน่วยงานรหัส
+  - รหัสหน่วยงาน
+  agc_name:
+  - ^ชื่อกรม$
+  - agc_name
+  - ชื่อหน่วยงาน
+  - กรม
+  group_budget:
+  - กลุ่มงบประมาณ
+  - group_budget
+  plan_name:
+  - ชื่อแผนงาน
+  - ^แผนงาน
+  - plan_name
+  output_name:
+  - ชื่อผลผลิต
+  - ชื่อผลผลิต/โครงการ
+  - ผลผลิต
+  - โครงการ
+  - output_name
+  act_name:
+  - ชื่อกิจกรรม
+  - ^กิจกรรม
+  - act_name
+  objc:
+  - ชื่องบรายจ่าย
+  - ^งบรายจ่าย
+  - objc
+  objc_8:
+  - ชื่อหมวดรายจ่ายหลัก
+  - หมวดรายจ่ายหลัก
+  - objc_8
+  cap_ncap:
+  - จำแนกรายจ่ายประจำ-ลงทุน
+  - ประจำ-ลงทุน
+  - cap_ncap
+  item_name:
+  - ลักษณะรายจ่าย
+  - รายการ
+  - รายละเอียดรายการ
+  - item_name
+  p_total_bud:
+  - งบประมาณ
+  - ยอดรวม
+  - รวมทั้งสิ้น
+  - รวม
+  - p_total_bud
+  - ^จำนวนเงิน$
+  fy:
+  - ^ปีงบ
+  - ^ปี
+  - fy
+  plan_sort_leaf:
+  - รหัสจัดเรียงแผน
+  - plan_sort_leaf
+  plan_topic_leaf:
+  - หัวข้อแผน
+  - plan_topic_leaf
+amount_patterns:
+- งบประมาณ
+- ยอดรวม
+- รวมทั้งสิ้น
+- รวม
+- จำนวนเงิน
+- p_total
+- ยอด (บาท)
+text_clean:
+  strip_zero_width: true
+  normalize_unicode: true
+  collapse_spaces: true
+header_scan_rows: 25

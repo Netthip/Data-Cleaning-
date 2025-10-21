@@ -1,0 +1,45 @@
+datadict:
+  path: "./data/datadic.xlsx"   # << ต้องชี้ไฟล์นี้
+  sheet: 0
+
+input_file: "./data/clean_data.xlsx"  # << ingest จะสร้างไฟล์นี้
+output_file: "./out/clean_with_formulas.xlsx"
+zero_policy: "nan_to_zero"
+force_numeric: ["ปี2568","ปี2569","ปี2570","บัญชี1","บัญชี2","บัญชี3"]
+
+computed_columns:
+  - name: "บัญชี1+2"
+    expr: "บัญชี1 + บัญชี2"
+    round: 2
+  - name: "บัญชี1+2+3"
+    expr: "บัญชี1 + บัญชี2 + บัญชี3"
+    round: 2
+  - name: "Δ70_vs_69"
+    expr: "ปี2570 - ปี2569"
+    round: 2
+  - name: "%Δ70_vs_69"
+    expr: "Δ70_vs_69 / ปี2569"
+    safe_div: true
+    round: 4
+
+aggregations:
+  - agg_name: "หน่วยงาน"
+    group_by: ["หน่วยงาน","ประจำ/ลงทุน","ปีเดียว/ผูกพัน"]
+    metrics:
+      "sum_ปี2569": "sum(ปี2569)"
+      "sum_ปี2570": "sum(ปี2570)"
+      "mean_%Δ70_vs_69": "mean(%Δ70_vs_69)"
+
+write_table:
+  enabled: true
+  workbook: "./data/แบบฟอร์ม_2569.xlsx"
+  percent_patterns: ["%","percent","เปอร์เซ็น"]
+  blocks:
+    - source_agg: "หน่วยงาน"
+      sheet: "5รายละเอียด"
+      start_cell: "A10"
+      columns: ["หน่วยงาน","ประจำ/ลงทุน","ปีเดียว/ผูกพัน","sum_ปี2569","sum_ปี2570","mean_%Δ70_vs_69"]
+      format_hint:
+        percent: ["mean_%Δ70_vs_69"]
+        decimal0: ["sum_ปี2569"]
+        decimal2: ["sum_ปี2570"]

@@ -1,0 +1,117 @@
+common:
+  sheet_name: Table 1
+  header_row: 7
+  columns_map:
+    รายการ: item_text
+    หน่วยนับ: unit
+    ปริมาณ: quantity
+    งบประมาณ: amount
+    งบประมาณรวม: amount
+    งบประมาณ (บาท): amount
+  header_synonyms:
+    item_text:
+    - รายการ
+    - รายละเอียดรายการ
+    - ชื่อรายการ
+    - รายการ/รายละเอียด
+    - รายละเอียด
+    unit:
+    - หน่วยนับ
+    - หน่วย
+    - unit
+    quantity:
+    - ปริมาณ
+    - จำนวน
+    - qty
+    - ปริมาณ(หน่วย)
+    amount:
+    - งบประมาณ
+    - งบประมาณรวม
+    - วงเงินรวม
+    - วงเงินรวม(บาท)
+    - จำนวนเงิน(บาท)
+    - งบประมาณ (บาท)
+  province_detection:
+    pattern: (\d{8})\s+([ก-๙A-Za-z ].+)
+    search_rows_limit: 20
+    assign:
+      province_code: 1
+      province_name: 2
+  carry_down_fields:
+  - min_name
+  - agc_name
+  - plan_name
+  - stg_name
+  - output_name
+  - activity_name
+  - objc_5
+  - objc_code_5g
+  - objc_8
+  - objc_code
+  - obj_12
+  keywords:
+    totals:
+    - รวมทั้งสิ้น
+    - รวม
+    group_budget_5:
+      บุคลากร:
+      - งบบุคลากร
+      ดำเนินงาน:
+      - งบดำเนินงาน
+      ลงทุน:
+      - งบลงทุน
+      เงินอุดหนุน:
+      - งบเงินอุดหนุน
+      อื่น:
+      - งบรายจ่ายอื่น
+    activity_keyword: ^\s*กิจกรรม
+    plan_prefix: แผนงาน
+    plan_exclusions:
+    - แผนงานบุคลากร
+    - แผนงานพื้นฐาน
+    - แผนงานยุทธศาสตร์
+    - แผนงานบูรณาการ
+  mapping_files:
+    objc: objc_mapping.yml
+profiles:
+- name: bangkok
+  province_match:
+  - กรุงเทพมหานคร
+  detect_rules:
+    activity_by_fill: '#CCFFCC'
+    item_level_hint:
+      quantity_is_number_or_zero: true
+- name: nonthaburi
+  province_match:
+  - นนทบุรี
+  detect_rules:
+    activity_by_keyword_from_common: activity_keyword
+    section_header_by_keyword_prefix: หมวด
+    item_level_hint:
+      quantity_is_number_or_zero: true
+outputs:
+  columns:
+  - province_code
+  - province_name
+  - plan_name
+  - stg_name
+  - min_name
+  - agc_name
+  - output_name
+  - activity_name
+  - objc_5
+  - objc_code_5g
+  - objc_8
+  - objc_code
+  - obj_12
+  - item_name1
+  - unit
+  - quantity
+  - amount
+  - source_row
+  - source_file
+header_synonyms:
+  item_text: ["รายการ","รายละเอียดรายการ","ชื่อรายการ","รายการ/รายละเอียด","รายละเอียด"]
+  unit: ["หน่วยนับ","หน่วย","unit"]
+  quantity: ["ปริมาณ","จำนวน","qty","ปริมาณ(หน่วย)","จำนวน(หน่วย)"]
+  amount: ["งบประมาณ","งบประมาณรวม","วงเงินรวม","วงเงินรวม(บาท)","จำนวนเงิน(บาท)"]
